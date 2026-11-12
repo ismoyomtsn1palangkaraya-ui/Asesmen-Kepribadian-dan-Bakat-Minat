@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesmen Potensi & Kepribadian Siswa MTs</title>
+    <!-- Menggunakan Tailwind CSS untuk desain responsif & modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Menggunakan Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Menggunakan Lucide Icons untuk ikon edukatif & ramah remaja -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Animasi transisi halus */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom styling untuk cetak laporan */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+            }
+            .print-shadow-none {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 no-print">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-xl shadow-sm">
+                    <i data-lucide="compass" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg sm:text-xl text-slate-900 leading-tight">Sahabat Potensi MTs</h1>
+                    <p class="text-xs text-slate-500">Asesmen Kepribadian & Minat Bakat Remaja</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center space-x-2 text-xs font-medium bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>Instrumen Psikologi Pendidikan</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+        
+        <!-- VIEW 1: Halaman Pembuka & Identitas Siswa -->
+        <section id="view-intro" class="fade-in">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                <!-- Banner Atas -->
+                <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 sm:p-10 text-white">
+                    <div class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium mb-4">
+                        <span>Assalamu'alaikum Warahmatullahi Wabarakatuh</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-3 leading-snug">Kenali Dirimu, Raih Prestasi Terbaik di Madrasah!</h2>
+                    <p class="text-emerald-50 text-sm sm:text-base max-w-2xl leading-relaxed">
+                        Halo! Asesmen ini dirancang khusus oleh tim Psikologi Pendidikan untuk membantu kamu memahami kecenderungan kepribadian, minat aktivitas, serta rekomendasi ekstrakurikuler yang paling cocok dengan potensimu.
+                    </p>
+                </div>
+
+                <!-- Form Identitas & Petunjuk -->
+                <div class="p-6 sm:p-10 space-y-8">
+                    <!-- Petunjuk Pengisian -->
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start space-x-4">
+                        <div class="bg-amber-100 text-amber-700 p-2 rounded-xl shrink-0 mt-0.5">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                        </div>
+                        <div class="text-sm text-amber-900 space-y-1">
+                            <h3 class="font-bold">Petunjuk Pengisian (Penting!):</h3>
+                            <ul class="list-disc list-inside space-y-1 text-amber-800">
+                                <li><strong>Tidak ada jawaban benar atau salah.</strong> Setiap kepribadian memiliki keunikan dan kelebihannya masing-masing.</li>
+                                <li>Jawablah dengan jujur sesuai dengan diri kamu yang sebenarnya, bukan yang diinginkan orang lain.</li>
+                                <li>Terdapat <strong>18 pernyataan singkat</strong> yang hanya membutuhkan waktu sekitar 3–5 menit.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Form Data Diri -->
+                    <form id="student-form" class="space-y-5">
+                        <h3 class="font-bold text-lg text-slate-900 border-b border-slate-100 pb-2">Data Peserta Didik</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="student-name" class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Lengkap</label>
+                                <input type="text" id="student-name" required placeholder="Contoh: Ahmad Fauzan" 
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label for="student-class" class="block text-sm font-semibold text-slate-700 mb-1.5">Kelas</label>
+                                <select id="student-class" required 
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm bg-white">
+                                    <option value="" disabled selected>Pilih Kelas...</option>
+                                    <option value="VII (Tujuh)">Kelas VII (Tujuh)</option>
+                                    <option value="VIII (Delapan)">Kelas VIII (Delapan)</option>
+                                    <option value="IX (Sembilan)">Kelas IX (Sembilan)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="student-madrasah" class="block text-sm font-semibold text-slate-700 mb-1.5">Asal Madrasah (Opsional)</label>
+                            <input type="text" id="student-madrasah" placeholder="Contoh: MTs Negeri 1..." 
+                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition text-sm">
+                        </div>
+
+                        <!-- Kotak Pesan Validasi Kustom -->
+                        <div id="form-error" class="hidden bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-xl text-sm flex items-center space-x-2">
+                            <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                            <span>Mohon lengkapi Nama Lengkap dan Kelas terlebih dahulu sebelum memulai.</span>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-2xl shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2 text-base">
+                                <span>Mulai Asesmen Sekarang</span>
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 2: Lembar Pertanyaan Interaktif -->
+        <section id="view-quiz" class="hidden fade-in">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-10">
+                <!-- Progress Bar -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center text-sm font-semibold mb-2">
+                        <span class="text-emerald-700" id="progress-text">Pertanyaan 1 dari 18</span>
+                        <span class="text-slate-500" id="progress-percent">6%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="bg-emerald-600 h-full rounded-full transition-all duration-300" style="width: 6%"></div>
+                    </div>
+                </div>
+
+                <!-- Area Pertanyaan -->
+                <div class="min-h-[260px] flex flex-col justify-between">
+                    <div>
+                        <span class="inline-block text-xs font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-3 py-1 rounded-lg mb-4">
+                            Seberapa sesuai pernyataan ini dengan dirimu?
+                        </span>
+                        <h3 id="question-text" class="text-xl sm:text-2xl font-bold text-slate-900 leading-relaxed mb-8">
+                            <!-- Teks pertanyaan akan diisi oleh JavaScript -->
+                        </h3>
+                    </div>
+
+                    <!-- Pilihan Jawaban Skala Likert Ramah Remaja -->
+                    <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- Tombol pilihan akan dirender oleh JS -->
+                    </div>
+                </div>
+
+                <!-- Navigasi Bawah -->
+                <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                    <button id="btn-prev" type="button" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-600 hover:bg-slate-50 font-semibold text-sm flex items-center space-x-2 transition disabled:opacity-40 disabled:pointer-events-none">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        <span>Sebelumnya</span>
+                    </button>
+                    <span class="text-xs text-slate-400 hidden sm:inline">Pilih salah satu jawaban untuk melanjutkan otomatis</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: Hasil Analisis Psikologi Pendidikan -->
+        <section id="view-result" class="hidden fade-in space-y-6">
+            <!-- Header Hasil & Identitas -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 sm:p-10 print-shadow-none">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-6">
+                    <div>
+                        <div class="inline-flex items-center space-x-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full mb-2">
+                            <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                            <span>Laporan Profil Kepribadian & Minat</span>
+                        </div>
+                        <h2 id="res-name" class="text-2xl sm:text-3xl font-extrabold text-slate-900">Nama Siswa</h2>
+                        <p id="res-meta" class="text-sm text-slate-500 mt-1">Kelas VII • MTs Negeri</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 no-print">
+                        <button onclick="copySummary()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm flex items-center space-x-2 transition">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                            <span>Salin Ringkasan</span>
+                        </button>
+                        <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center space-x-2 transition shadow-sm">
+                            <i data-lucide="printer" class="w-4 h-4"></i>
+                            <span>Cetak / PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifikasi Salin Berhasil -->
+                <div id="copy-toast" class="hidden mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl text-sm flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Ringkasan hasil asesmen berhasil disalin! Kamu bisa menempelkannya di WhatsApp untuk dikirim ke Guru BK atau Orang Tua.</span>
+                    </div>
+                </div>
+
+                <!-- Tipe Kepribadian Utama -->
+                <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 border border-emerald-200/80 rounded-2xl p-6 sm:p-8 mb-8">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div id="res-primary-icon" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                            <!-- Icon diisi via JS -->
+                        </div>
+                        <div class="space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-emerald-700">Kecenderungan Kepribadian Utama Kamu:</div>
+                            <h3 id="res-primary-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900">Tipe Kepribadian</h3>
+                            <p id="res-primary-tagline" class="text-sm sm:text-base font-medium text-teal-800">Tagline singkat kepribadian</p>
+                        </div>
+                    </div>
+                    <p id="res-primary-desc" class="mt-5 text-slate-700 text-sm sm:text-base leading-relaxed border-t border-emerald-200/60 pt-4">
+                        Deskripsi mendalam dari psikolog pendidikan.
+                    </p>
+                </div>
+
+                <!-- Grid Rekomendasi Praktis untuk Siswa MTs -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+                    <!-- Kartu 1: Kekuatan Utama -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5">
+                        <div class="flex items-center space-x-2.5 text-emerald-700 font-bold mb-3">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            <h4>Kekuatan & Potensi</h4>
+                        </div>
+                        <ul id="res-strengths" class="space-y-2 text-sm text-slate-700"></ul>
+                    </div>
+
+                    <!-- Kartu 2: Gaya Belajar Efektif -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5">
+                        <div class="flex items-center space-x-2.5 text-blue-700 font-bold mb-3">
+                            <i data-lucide="book-open" class="w-5 h-5"></i>
+                            <h4>Strategi Belajar</h4>
+                        </div>
+                        <ul id="res-study-tips" class="space-y-2 text-sm text-slate-700"></ul>
+                    </div>
+
+                    <!-- Kartu 3: Rekomendasi Ekstrakurikuler Madrasah -->
+                    <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5">
+                        <div class="flex items-center space-x-2.5 text-amber-700 font-bold mb-3">
+                            <i data-lucide="trophy" class="w-5 h-5"></i>
+                            <h4>Rekomendasi Ekskul MTs</h4>
+                        </div>
+                        <ul id="res-extracurricular" class="space-y-2 text-sm text-slate-700"></ul>
+                    </div>
+                </div>
+
+                <!-- Grafik Profil 6 Dimensi (RIASEC) -->
+                <div class="border-t border-slate-100 pt-8">
+                    <h4 class="font-bold text-lg text-slate-900 mb-1">Peta Keseimbangan 6 Dimensi Kepribadian</h4>
+                    <p class="text-xs sm:text-sm text-slate-500 mb-6">Setiap orang memiliki kombinasi dari keenam dimensi ini. Berikut adalah gambaran profil lengkapmu:</p>
+                    <div id="res-chart" class="space-y-4">
+                        <!-- Bar chart dirender oleh JS -->
+                    </div>
+                </div>
+
+                <!-- Catatan Psikolog Pendidikan -->
+                <div class="mt-8 bg-indigo-50/70 border border-indigo-100 rounded-2xl p-5 text-sm text-indigo-950 flex items-start space-x-3.5">
+                    <i data-lucide="heart-handshake" class="w-6 h-6 text-indigo-600 shrink-0 mt-0.5"></i>
+                    <div class="space-y-1">
+                        <h5 class="font-bold text-indigo-900">Catatan Psikolog Pendidikan:</h5>
+                        <p class="text-indigo-800/90 leading-relaxed">
+                            Masa remaja di MTs adalah fase eksplorasi dan pembentukan jati diri. Hasil asesmen ini bukan label yang membatasi, melainkan peta awal untuk mengenali keunggulanmu. Diskusikan hasil ini dengan <strong>Guru Bimbingan Konseling (BK)</strong> atau orang tua agar bakatmu semakin terarah!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tombol Ulangi Asesmen -->
+                <div class="mt-8 pt-6 border-t border-slate-100 flex justify-center no-print">
+                    <button onclick="resetAssessment()" class="px-6 py-3 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-sm flex items-center space-x-2 transition">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        <span>Ulangi Asesmen / Peserta Baru</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 no-print">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center text-xs text-slate-500 space-y-1">
+            <p class="font-medium text-slate-600">Modul Asesmen Psikologi Pendidikan • Adaptasi Model Minat Kepribadian RIASEC untuk Siswa MTs</p>
+            <p>Dirancang untuk mendukung layanan Bimbingan & Konseling (BK) di lingkungan Madrasah.</p>
+        </div>
+    </footer>
+
+    <!-- Logika Aplikasi & Instrumen Psikometri -->
+    <script>
+        /**
+         * BANK INSTRUMEN ASESMEN KEPRIBADIAN SISWA MTs
+         * Berbasis adaptasi model Holland (RIASEC) yang dikontekstualisasikan
+         * dengan kehidupan remaja usia 12-15 tahun di lingkungan Madrasah Tsanawiyah.
+         * 
+         * Kategori:
+         * R = Realistic (Praktis & Kinestetik)
+         * I = Investigative (Analitis & Pemikir)
+         * A = Artistic (Kreatif & Ekspresif)
+         * S = Social (Peduli & Kolaboratif)
+         * E = Enterprising (Pemimpin & Komunikatif)
+         * C = Conventional (Teratur & Teliti)
+         */
+        const QUESTIONS = [
+            // Realistic (R)
+            { id: 1, category: 'R', text: "Saya lebih senang praktik langsung (seperti merakit alat, berkebun, atau olahraga) daripada hanya duduk mendengarkan teori." },
+            { id: 2, category: 'R', text: "Jika ada barang elektronik atau sepeda yang rusak ringan, saya penasaran ingin mencoba memperbaikinya sendiri." },
+            { id: 3, category: 'R', text: "Saya menikmati kegiatan di luar ruangan (outdoor) seperti berkemah saat kegiatan Pramuka atau menjelajah alam." },
+
+            // Investigative (I)
+            { id: 4, category: 'I', text: "Saya suka memecahkan teka-teki logika, soal hitungan yang menantang, atau mencari tahu cara kerja sesuatu secara mendalam." },
+            { id: 5, category: 'I', text: "Ketika membaca atau mendengar informasi baru, saya sering bertanya 'mengapa bisa begitu?' dan mencari buktinya." },
+            { id: 6, category: 'I', text: "Saya tertarik melakukan percobaan sains sederhana atau mengamati fenomena alam di sekitar kita." },
+
+            // Artistic (A)
+            { id: 7, category: 'A', text: "Saya senang mengekspresikan ide melalui menggambar, menulis cerita/puisi, kaligrafi, atau bermain musik/hadroh." },
+            { id: 8, category: 'A', text: "Saya suka membuat tugas sekolah (seperti poster atau presentasi) dengan desain yang unik, penuh warna, dan berbeda dari biasanya." },
+            { id: 9, category: 'A', text: "Saya memiliki imajinasi yang kuat dan sering membayangkan ide-ide kreatif saat waktu luang." },
+
+            // Social (S)
+            { id: 10, category: 'S', text: "Teman-teman sering merasa nyaman bercerita atau meminta pendapat kepada saya ketika mereka sedang punya masalah." },
+            { id: 11, category: 'S', text: "Saya merasa sangat senang jika bisa membantu teman yang kesulitan memahami pelajaran atau terlibat dalam kegiatan bakti sosial." },
+            { id: 12, category: 'S', text: "Saya lebih suka belajar dan mengerjakan proyek secara berkelompok daripada sendirian." },
+
+            // Enterprising (E)
+            { id: 13, category: 'E', text: "Saya berani berbicara di depan kelas, menjadi pembawa acara (MC), atau menyampaikan pidato/ceramah (Muhadharah)." },
+            { id: 14, category: 'E', text: "Dalam tugas kelompok, saya sering berinisiatif membagi tugas dan menyemangati teman-teman agar target tercapai." },
+            { id: 15, category: 'E', text: "Saya tertarik belajar berwirausaha kecil-kecilan atau mengatur jalannya acara di madrasah." },
+
+            // Conventional (C)
+            { id: 16, category: 'C', text: "Saya suka menjaga buku catatan tetap rapi, terstruktur, dan mencatat jadwal kegiatan dengan teratur." },
+            { id: 17, category: 'C', text: "Saya merasa tenang ketika mengerjakan tugas yang petunjuknya jelas dan langkah-langkahnya berurutan." },
+            { id: 18, category: 'C', text: "Saya teliti dalam memeriksa kembali pekerjaan saya agar tidak ada kesalahan kecil sebelum dikumpulkan." }
+        ];
+
+        // Skala Pilihan Jawaban (Skor 1 - 4)
+        const OPTIONS = [
+            { label: "Sangat Sesuai Dengan Saya", sub: "Menggambarkan diri saya banget!", score: 4, icon: "smile-plus" },
+            { label: "Cukup Sesuai", sub: "Sering saya lakukan atau rasakan", score: 3, icon: "smile" },
+            { label: "Kurang Sesuai", sub: "Jarang saya lakukan", score: 2, icon: "meh" },
+            { label: "Tidak Sesuai", sub: "Bukan gaya saya sama sekali", score: 1, icon: "minus-circle" }
+        ];
+
+        // Profil Psikologis Lengkap per Dimensi
+        const PROFILES = {
+            R: {
+                title: "Si Praktis & Tangkas (Realistic)",
+                tagline: "Belajar terbaik dengan aksi nyata, terampil, dan menyukai tantangan fisik maupun teknis.",
+                icon: "wrench",
+                desc: "Kamu adalah pribadi yang membumi, aktif, dan tidak suka bertele-tele. Kamu lebih mudah memahami pelajaran ketika bisa melihat, menyentuh, atau mempraktikkannya secara langsung. Ketangguhan fisik dan keterampilan tanganmu adalah aset besar.",
+                strengths: [
+                    "Cepat menguasai keterampilan teknis & alat",
+                    "Tangguh saat kegiatan lapangan/outdoor",
+                    "Fokus pada solusi nyata yang langsung bekerja"
+                ],
+                studyTips: [
+                    "Gunakan alat peraga atau simulasi saat belajar IPA/Matematika",
+                    "Belajar sambil bergerak ringan atau membuat model fisik",
+                    "Selingi waktu belajar dengan istirahat aktif"
+                ],
+                extracurricular: [
+                    "Pramuka & Pecinta Alam",
+                    "Olahraga (Futsal, Voli, Bulu Tangkis, Pencak Silat)",
+                    "Robotika, Keterampilan Elektronika, atau Tata Boga"
+                ]
+            },
+            I: {
+                title: "Si Pemikir & Peneliti (Investigative)",
+                tagline: "Rasa ingin tahu tinggi, logis, kritis, dan gemar memecahkan persoalan kompleks.",
+                icon: "microscope",
+                desc: "Kamu memiliki pikiran yang tajam dan analitis. Kamu tidak mudah puas dengan jawaban permukaan dan selalu tertarik memahami konsep di balik sebuah kejadian. Kemampuan berpikir runtut membuatmu unggul dalam menganalisis masalah.",
+                strengths: [
+                    "Berpikir logis, kritis, dan objektif",
+                    "Rasa ingin tahu intelektual yang sangat besar",
+                    "Mandiri dalam mencari informasi & solusi"
+                ],
+                studyTips: [
+                    "Buat peta konsep (mind map) untuk menghubungkan teori",
+                    "Latih diri dengan soal-soal analisis atau studi kasus",
+                    "Cari sumber bacaan tambahan untuk memperdalam materi"
+                ],
+                extracurricular: [
+                    "Karya Ilmiah Remaja (KIR)",
+                    "Klub Olimpiade Sains & Matematika (KSM)",
+                    "Klub Catur, Coding, atau Literasi Sains"
+                ]
+            },
+            A: {
+                title: "Si Kreatif & Ekspresif (Artistic)",
+                tagline: "Penuh imajinasi, peka terhadap keindahan, orisinal, dan suka berkarya.",
+                icon: "palette",
+                desc: "Kamu memandang dunia dengan cara yang unik dan penuh warna. Kamu memiliki kepekaan estetika yang tinggi dan merasa paling hidup ketika diberi kebebasan untuk berekspresi tanpa aturan yang terlalu kaku.",
+                strengths: [
+                    "Kaya akan ide-ide segar dan orisinal",
+                    "Kepekaan seni, bahasa, dan visual yang kuat",
+                    "Mampu menyampaikan pesan lewat karya kreatif"
+                ],
+                studyTips: [
+                    "Gunakan spidol warna-warni dan sketsa saat mencatat",
+                    "Ubah materi hafalan menjadi lagu, cerita, atau komik",
+                    "Ciptakan suasana ruang belajar yang nyaman & estetik"
+                ],
+                extracurricular: [
+                    "Seni Kaligrafi Islam & Melukis",
+                    "Hadroh, Marawis, Nasyid, atau Paduan Suara",
+                    "Teater, Jurnalistik Madrasah, & Desain Grafis"
+                ]
+            },
+            S: {
+                title: "Si Peduli & Sahabat Semua (Social)",
+                tagline: "Hangat, empatik, komunikatif, dan senang membantu orang lain berkembang.",
+                icon: "users",
+                desc: "Kamu memiliki kecerdasan interpersonal dan empati yang menonjol. Kehadiranmu sering membawa suasana hangat dan damai di kelas. Kamu sangat peduli pada perasaan teman dan senang bekerja sama untuk kebaikan bersama.",
+                strengths: [
+                    "Pendengar yang baik dan mudah berempati",
+                    "Mampu bekerja sama dengan beragam karakter teman",
+                    "Sabar dalam membimbing atau menjelaskan sesuatu"
+                ],
+                studyTips: [
+                    "Bentuk kelompok belajar (study group) bersama teman",
+                    "Coba jelaskan ulang materi pelajaran kepada teman sebaya",
+                    "Diskusikan topik pelajaran secara tanya-jawab"
+                ],
+                extracurricular: [
+                    "Palang Merah Remaja (PMR)",
+                    "Konselor Sebaya / Kader Kesehatan Remaja",
+                    "Rohis / Remaja Masjid & Kegiatan Sosial"
+                ]
+            },
+            E: {
+                title: "Si Penggerak & Pemimpin (Enterprising)",
+                tagline: "Percaya diri, persuasif, berani mengambil inisiatif, dan berjiwa kepemimpinan.",
+                icon: "megaphone",
+                desc: "Kamu memiliki energi kepemimpinan alami. Kamu berani tampil di depan umum, pandai meyakinkan orang lain, dan suka menggerakkan tim untuk mencapai tujuan bersama. Tantangan baru justru membuatmu semakin bersemangat.",
+                strengths: [
+                    "Kepercayaan diri tinggi dalam berkomunikasi",
+                    "Berani mengambil keputusan dan tanggung jawab",
+                    "Mampu memotivasi dan mengorganisir teman"
+                ],
+                studyTips: [
+                    "Tetapkan target nilai yang jelas setiap semester",
+                    "Aktif bertanya dan berpendapat saat diskusi kelas",
+                    "Latih pemahaman dengan mempresentasikan ringkasan materi"
+                ],
+                extracurricular: [
+                    "OSIS MTs & Dewan Penggalang Pramuka",
+                    "Muhadharah / Pidato 3 Bahasa (Arab, Inggris, Indonesia)",
+                    "Klub Debat & Kewirausahaan Siswa (Market Day)"
+                ]
+            },
+            C: {
+                title: "Si Teratur & Teliti (Conventional)",
+                tagline: "Rapi, sistematis, dapat diandalkan, dan memperhatikan detail dengan sangat baik.",
+                icon: "clipboard-check",
+                desc: "Kamu adalah pribadi yang terorganisir dan bertanggung jawab. Ketika diberi amanah, kamu menyelesaikannya dengan rapi, tepat waktu, dan sesuai aturan. Ketelitianmu membuat orang lain sangat memercayaimu.",
+                strengths: [
+                    "Sangat teliti, rapi, dan terstruktur",
+                    "Disiplin terhadap waktu dan prosedur",
+                    "Dapat diandalkan dalam mengelola data atau tugas"
+                ],
+                studyTips: [
+                    "Buat jadwal belajar harian yang teratur dan konsisten",
+                    "Susun catatan pelajaran secara sistematis per bab",
+                    "Gunakan daftar periksa (checklist) untuk memantau tugas"
+                ],
+                extracurricular: [
+                    "Pengurus Perpustakaan & Administrasi OSIS",
+                    "Pasukan Pengibar Bendera (Paskibra)",
+                    "Klub Komputer / Perkantoran Digital & Tahfidz Terjadwal"
+                ]
+            }
+        };
+
+        // State Aplikasi
+        let state = {
+            studentName: '',
+            studentClass: '',
+            studentMadrasah: '',
+            currentIndex: 0,
+            answers: new Array(QUESTIONS.length).fill(null)
+        };
+
+        // Inisialisasi ikon Lucide saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Submit Form Identitas
+            const form = document.getElementById('student-form');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const nameInput = document.getElementById('student-name').value.trim();
+                const classInput = document.getElementById('student-class').value;
+                const madrasahInput = document.getElementById('student-madrasah').value.trim();
+                const errorBox = document.getElementById('form-error');
+
+                if (!nameInput || !classInput) {
+                    errorBox.classList.remove('hidden');
+                    return;
+                }
+
+                errorBox.classList.add('hidden');
+                state.studentName = nameInput;
+                state.studentClass = classInput;
+                state.studentMadrasah = madrasahInput || 'Madrasah Tsanawiyah';
+
+                switchView('view-quiz');
+                renderQuestion();
+            });
+
+            // Tombol Sebelumnya pada Kuis
+            document.getElementById('btn-prev').addEventListener('click', () => {
+                if (state.currentIndex > 0) {
+                    state.currentIndex--;
+                    renderQuestion();
+                }
+            });
+        }
+
+        // Navigasi antar tampilan
+        function switchView(viewId) {
+            ['view-intro', 'view-quiz', 'view-result'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            const target = document.getElementById(viewId);
+            target.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Pertanyaan Aktif
+        function renderQuestion() {
+            const q = QUESTIONS[state.currentIndex];
+            const total = QUESTIONS.length;
+            const progress = Math.round(((state.currentIndex + 1) / total) * 100);
+
+            // Update Progress Bar
+            document.getElementById('progress-text').textContent = `Pertanyaan ${state.currentIndex + 1} dari ${total}`;
+            document.getElementById('progress-percent').textContent = `${progress}%`;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // Update Teks Pertanyaan
+            document.getElementById('question-text').textContent = `"${q.text}"`;
+
+            // Update status tombol Sebelumnya
+            document.getElementById('btn-prev').disabled = state.currentIndex === 0;
+
+            // Render Pilihan Jawaban
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            OPTIONS.forEach((opt) => {
+                const isSelected = state.answers[state.currentIndex] === opt.score;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `text-left p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-start space-x-3.5 active:scale-[0.98] ${
+                    isSelected 
+                    ? 'border-emerald-600 bg-emerald-50/80 ring-2 ring-emerald-500/20' 
+                    : 'border-slate-200 hover:border-emerald-400 hover:bg-slate-50 bg-white'
+                }`;
+
+                btn.innerHTML = `
+                    <div class="p-2 rounded-xl shrink-0 ${isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'}">
+                        <i data-lucide="${opt.icon}" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-900 text-sm sm:text-base">${opt.label}</div>
+                        <div class="text-xs text-slate-500 mt-0.5">${opt.sub}</div>
+                    </div>
+                `;
+
+                btn.addEventListener('click', () => handleAnswer(opt.score));
+                container.appendChild(btn);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Menangani Pilihan Jawaban & Transisi Otomatis
+        function handleAnswer(score) {
+            state.answers[state.currentIndex] = score;
+            renderQuestion(); // Beri umpan balik visual terpilih sesaat
+
+            setTimeout(() => {
+                if (state.currentIndex < QUESTIONS.length - 1) {
+                    state.currentIndex++;
+                    renderQuestion();
+                } else {
+                    calculateAndShowResults();
+                }
+            }, 220);
+        }
+
+        // Kalkulasi Skor & Tampilkan Hasil Psikologis
+        function calculateAndShowResults() {
+            const scores = { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 };
+            const maxPerCategory = 12; // 3 soal x skor maksimal 4
+
+            QUESTIONS.forEach((q, idx) => {
+                const val = state.answers[idx] || 1;
+                scores[q.category] += val;
+            });
+
+            // Urutkan kategori dari skor tertinggi ke terendah
+            const sortedCategories = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            const primaryCode = sortedCategories[0];
+            const primaryProfile = PROFILES[primaryCode];
+
+            // Isi Identitas Hasil
+            document.getElementById('res-name').textContent = state.studentName;
+            document.getElementById('res-meta').textContent = `Kelas ${state.studentClass} • ${state.studentMadrasah}`;
+
+            // Isi Profil Utama
+            document.getElementById('res-primary-icon').innerHTML = `<i data-lucide="${primaryProfile.icon}" class="w-9 h-9"></i>`;
+            document.getElementById('res-primary-title').textContent = primaryProfile.title;
+            document.getElementById('res-primary-tagline').textContent = primaryProfile.tagline;
+            document.getElementById('res-primary-desc').textContent = primaryProfile.desc;
+
+            // Isi Daftar Rekomendasi
+            populateList('res-strengths', primaryProfile.strengths);
+            populateList('res-study-tips', primaryProfile.studyTips);
+            populateList('res-extracurricular', primaryProfile.extracurricular);
+
+            // Render Grafik 6 Dimensi
+            const chartContainer = document.getElementById('res-chart');
+            chartContainer.innerHTML = '';
+
+            const labels = {
+                R: 'Praktis & Tangkas (Realistic)',
+                I: 'Pemikir & Peneliti (Investigative)',
+                A: 'Kreatif & Ekspresif (Artistic)',
+                S: 'Peduli & Sosial (Social)',
+                E: 'Penggerak & Pemimpin (Enterprising)',
+                C: 'Teratur & Teliti (Conventional)'
+            };
+
+            sortedCategories.forEach((code, index) => {
+                const score = scores[code];
+                const percentage = Math.round((score / maxPerCategory) * 100);
+                const isTop = index === 0;
+
+                const row = document.createElement('div');
+                row.className = 'space-y-1.5';
+                row.innerHTML = `
+                    <div class="flex justify-between text-xs sm:text-sm font-semibold">
+                        <span class="${isTop ? 'text-emerald-700 font-bold' : 'text-slate-700'}">
+                            ${labels[code]} ${isTop ? '★ (Dominan)' : ''}
+                        </span>
+                        <span class="text-slate-500">${percentage}%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                        <div class="${isTop ? 'bg-emerald-600' : 'bg-teal-500/70'} h-full rounded-full transition-all duration-700" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+                chartContainer.appendChild(row);
+            });
+
+            switchView('view-result');
+            lucide.createIcons();
+        }
+
+        function populateList(elementId, items) {
+            const ul = document.getElementById(elementId);
+            ul.innerHTML = items.map(item => `
+                <li class="flex items-start space-x-2">
+                    <span class="text-emerald-600 font-bold mt-0.5">•</span>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+        }
+
+        // Salin Ringkasan Hasil ke Clipboard (Aman untuk iframe)
+        function copySummary() {
+            const name = document.getElementById('res-name').textContent;
+            const meta = document.getElementById('res-meta').textContent;
+            const title = document.getElementById('res-primary-title').textContent;
+            const tagline = document.getElementById('res-primary-tagline').textContent;
+
+            const summaryText = `*HASIL ASESMEN KEPRIBADIAN & POTENSI SISWA MTs*\n\n` +
+                `Nama: ${name}\n` +
+                `Info: ${meta}\n` +
+                `Tipe Dominan: *${title}*\n` +
+                `Karakter Utama: ${tagline}\n\n` +
+                `_Dihasilkan melalui Aplikasi Sahabat Potensi MTs (Layanan Psikologi Pendidikan & BK)_`;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = summaryText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const toast = document.getElementById('copy-toast');
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 5000);
+            } catch (err) {
+                console.error('Gagal menyalin teks', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Reset untuk Peserta Baru
+        function resetAssessment() {
+            state = {
+                studentName: '',
+                studentClass: '',
+                studentMadrasah: '',
+                currentIndex: 0,
+                answers: new Array(QUESTIONS.length).fill(null)
+            };
+            document.getElementById('student-form').reset();
+            switchView('view-intro');
+        }
+    </script>
+</body>
+</html>
